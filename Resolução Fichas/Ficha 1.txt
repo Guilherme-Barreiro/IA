@@ -1,0 +1,22 @@
+% 1.1.
+cor(maçã, vermelho).
+cor(cereja, vermelho).
+cor(banana, amarelo).
+cor(pera, verde).
+cor(cenoura, laranja).
+cor(couve, verde).
+
+alimento(maçã, fruta).
+alimento(cereja, fruta).
+alimento(banana, fruta).
+alimento(pera, fruta).
+alimento(cenoura, hortalica).
+alimento(couve, hortalica).
+
+% 2.1.
+% a) cor(maçã, verde).
+% b) cor(maçã, X), cor(cereja, Y), X == Y.
+% c) cor(X, verde), alimento(X, Tipo).
+% d) cor(X, verde), alimento(X, hortalica).
+% e) alimento(X, hortalica), cor(X, Y), alimento(A, fruta), cor(A, B), Y == B
+% d) alimento(X, hortalica), cor(X, vermelho)
