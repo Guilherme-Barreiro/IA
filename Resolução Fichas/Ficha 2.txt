@@ -1,0 +1,232 @@
+% Ex 0
+% factos
+%pai(joao, maria).
+%pai(joao, pedro).
+%pai(joao, tozé).
+%mae(ana, maria).
+%mae(ana, pedro).
+
+% regras
+%irmao(X, Y) :- pai(P, X), pai(P, Y), 
+%    mae(M, X), mae(M, Y), X \= Y.
+
+%meio_irmao(X,Y):-meio_irmao_pai(X,Y) ; meio_irmao_mae(X,Y).
+%meio_irmao_pai(X,Y):-pai(P,X),pai(P,Y), (mae(M,X),not(mae(M,Y)) ; mae(M,Y),not(mae(M,X))).
+%meio_irmao_mae(X,Y):-mae(M,X),mae(M,Y), (pai(P,X),not(pai(P,Y)) ; pai(P,Y),not(pai(P,X))).
+
+
+% versão Rafael da Silva
+%mesmopai(X,Y) :- pai(P,X), pai(P,Y), X \= Y.
+%mesmamae(X,Y) :- mae(M,X), mae(M,Y), X \= Y.
+%meioirmao(X,Y) :- mesmopai(X,Y) , not(mesmamae(X,Y)) ; not(mesmopai(X,Y)) , mesmamae(X,Y).
+%    
+%    
+%    
+%    
+%    
+% 1.2.
+% Fatos: representando as relações da árvore genealógica
+
+% Casamentos (parceiros)
+casado(jan_simon, john_hamilton).
+casado(abby_hamilton, steve_smith).
+casado(gabi_julian, john_hamilton_jr).
+casado(barb_hamilton, dale_calebs).
+casado(pam_calebs, mark_grant).
+casado(cami_smith,dale_marx).
+casado(alex_jones, mike_calebs).
+
+% Relações de pais e filhos
+pai(jan_simon, abby_hamilton).
+pai(jan_simon, gabi_julian).
+pai(john_hamilton, john_hamilton_jr).
+pai(john_hamilton, barb_hamilton).
+
+pai(abby_hamilton, fae_smith).
+pai(abby_hamilton, cami_smith).
+pai(abby_hamilton, dale_marx).
+
+pai(gabi_julian, meg_hamilton).
+pai(john_hamilton_jr, meg_hamilton).
+
+pai(barb_hamilton, pam_calebs).
+pai(barb_hamilton, mike_calebs).
+
+pai(dale_calebs, pam_calebs).
+pai(dale_calebs, mike_calebs).
+
+pai(pam_calebs, angie_grant).
+pai(mark_grant, angie_grant).
+
+pai(alex_jones, mary_calebs).
+pai(mike_calebs, mary_calebs).
+
+% Definições de regras
+
+% Regra para mãe (se um pai existe e está casado, a mãe é a parceira)
+mae(M, C) :- casado(M, P), pai(P, C).
+
+% Regra para filhos
+filho(F, P) :- pai(P, F).
+filho(F, M) :- mae(M, F).
+
+% Regra para avós
+avo(A, N) :- pai(A, P), pai(P, N).
+avo(A, N) :- mae(A, P), pai(P, N).
+avo(A, N) :- pai(A, M), mae(M, N).
+avo(A, N) :- mae(A, M), mae(M, N).
+
+% Regra para irmãos
+irmao(X, Y) :- pai(P, X), pai(P, Y), X \= Y.
+irmao(X, Y) :- mae(M, X), mae(M, Y), X \= Y.
+
+% Regra para netos
+neto(N, A) :- avo(A, N).
+
+% Regra para primos
+primo(X, Y) :- pai(P1, X), pai(P2, Y), irmao(P1, P2).
+primo(X, Y) :- mae(M1, X), mae(M2, Y), irmao(M1, M2).
+
+
+% Definição de gênero
+homem(tywin).
+homem(kevan).
+homem(jaime).
+homem(tyrion).
+homem(lancel).
+homem(robert).
+homem(joffrey).
+homem(tommen).
+homem(aerys_ii).
+homem(rhaegar).
+homem(viserys).
+homem(aegon).
+homem(khal_drogo).
+
+mulher(joanna).
+mulher(dorna).
+mulher(cersei).
+mulher(myrcella).
+mulher(rhaella).
+mulher(daenerys).
+mulher(elia).
+mulher(rhaenys).
+
+% Definição de família
+familia(tywin, joanna, lannister).
+familia(kevan, dorna, lannister).
+familia(robert, cersei, baratheon).
+familia(rhaegar, elia, targaryen).
+familia(aerys_ii, rhaella, targaryen).
+familia(daenerys, khal_drogo, targaryen).
+
+% Casamento
+casados(tywin, joanna).
+casados(kevan, dorna).
+casados(robert, cersei).
+casados(rhaegar, elia).
+casados(aerys_ii, rhaella).
+casados(daenerys, khal_drogo).
+
+% Descendência direta
+descendenteDir(tywin, joanna, jaime).
+descendenteDir(tywin, joanna, cersei).
+descendenteDir(tywin, joanna, tyrion).
+descendenteDir(kevan, dorna, lancel).
+descendenteDir(aerys_ii, rhaella, rhaegar).
+descendenteDir(aerys_ii, rhaella, viserys).
+descendenteDir(aerys_ii, rhaella, daenerys).
+descendenteDir(robert, cersei, joffrey).
+descendenteDir(robert, cersei, myrcella).
+descendenteDir(robert, cersei, tommen).
+descendenteDir(rhaegar, elia, aegon).
+descendenteDir(rhaegar, elia, rhaenys).
+
+
+% Relação de irmãos
+irmao(X, Y) :- descendenteDir(Pai, Mae, X), descendenteDir(Pai, Mae, Y), X \= Y.
+
+% Relações de conflito e amizade
+matou(jaime, aerys_ii).
+matou(robert, rhaegar).
+matou(montanha, aegon).
+matou(montanha, rhaenys).
+matou(montanha, elia).
+matou(khal_drogo, inimigo_dothraki).
+
+inimigo(robert, rhaegar).
+inimigo(tywin, aerys_ii).
+inimigo(daenerys, robert).
+
+amigo(tyrion, jaime).
+amigo(tyrion, bronn).
+
+amigo(X,Y) :- amigo(Y,X), !.
+
+% Relação amorosa inexistente
+relamorosa(X, Y) :- \+ casados(X, Y).
+
+% Relação de paternidade
+pai(P, F) :- descendenteDir(P, _, F).
+mae(M, F) :- descendenteDir(_, M, F).
+
+filho(P, F) :- pai(P, F), homem(F).
+filha(P, F) :- pai(P, F), mulher(F).
+
+% Definição de orientação sexual
+gay(loras_tyrell).
+
+% Estado civil de viuvez
+viuvo(X) :- casados(X, Y), morto(Y).
+viuva(X) :- casados(Y, X), morto(Y).
+
+% Relação entre viúvos
+viuvos_amorosos(X, Y) :- viuvo(X), viuva(Y).
+
+% Vingança
+vinganca_pendente(X, Y) :- casados(X, Z), matou(Y, Z).
+
+% Assassinato
+assassino(X) :- matou(X, _).
+
+% Estado de morte
+morto(tywin).
+morto(robert).
+morto(aerys_ii).
+morto(rhaegar).
+morto(aegon).
+morto(rhaenys).
+morto(elia).
+morto(khal_drogo).
+morto(joffrey).
+morto(montanha).
+
+% Vingança concluída
+vingou(X, Y) :- matou(X, Y), vinganca_pendente(X, Y).
+
+% Infidelidade
+infiel(X, Y) :- casados(X, Z), X \= Y, \+ morto(Y), \+ morto(Z).
+
+
+%perguntas
+%morto(aerys_ii)
+%matou(jaime, aerys_ii).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
