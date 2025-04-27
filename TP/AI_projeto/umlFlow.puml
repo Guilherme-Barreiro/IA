@@ -1,0 +1,50 @@
+@startuml
+' Tema claro para melhor visibilidade
+skinparam backgroundColor white
+skinparam defaultTextAlignment center
+skinparam classAttributeIconSize 0
+skinparam classFontColor black
+skinparam classBackgroundColor #f5f5f5
+skinparam classBorderColor black
+skinparam sequenceParticipantBorderColor black
+skinparam sequenceParticipantBackgroundColor #e0e0e0
+skinparam sequenceLifeLineBorderColor black
+skinparam sequenceLifeLineBackgroundColor #f5f5f5
+
+actor User
+participant "main.py" as Main
+participant "gui.py" as GUI
+participant "engine.py" as Engine
+participant "ai_move_explainer.py" as Explainer
+participant "roboflow_integration.py" as Roboflow
+participant "Stockfish Engine" as Stockfish
+participant "Groq LLM" as Groq
+participant "Roboflow API" as RoboAPI
+participant "chess.Board" as Board
+
+User -> Main : Executa app
+Main -> GUI : launch_main_gui()
+
+GUI -> GUI : render_board
+GUI -> Engine : get_best_move
+Engine -> Stockfish : Calcular jogada
+Stockfish --> Engine : Melhor jogada
+
+GUI -> Explainer : explain_move_with_groq
+Explainer -> Groq : Geração explicação
+Groq --> Explainer : Texto explicativo
+
+User -> GUI : Joga peça (drag & drop)
+GUI -> Engine : get_best_move (pretas jogam)
+
+User -> GUI : Pressiona SPACE
+GUI -> GUI : capture_board_from_screen
+GUI -> Roboflow : get_detected_board
+Roboflow -> RoboAPI : Detecção imagem
+RoboAPI --> Roboflow : JSON deteções
+Roboflow -> Board : Reconstrução estado
+
+GUI -> GUI : render_board
+GUI -> Engine : get_best_move
+GUI -> Explainer : explain_move_with_groq
+@enduml
