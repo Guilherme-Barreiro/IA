@@ -1,0 +1,23 @@
+names:
+- Bishop_Black
+- Bishop_white
+- King_black
+- King_white
+- Knight_black
+- Knight_white
+- Pawn_black
+- Pawn_white
+- Queen_black
+- Queen_white
+- Rook_black
+- Rook_white
+nc: 12
+roboflow:
+  license: CC BY 4.0
+  project: chessboarddetection-m4ei0
+  url: https://universe.roboflow.com/grupo14ai/chessboarddetection-m4ei0/dataset/2
+  version: 2
+  workspace: grupo14ai
+test: ../test/images
+train: ../train/images
+val: ../valid/images

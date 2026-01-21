@@ -1,0 +1,9 @@
+ultralytics
+opencv-python
+numpy
+pyautogui
+mss
+customtkinter
+python-chess
+pygame
+cairosvg
